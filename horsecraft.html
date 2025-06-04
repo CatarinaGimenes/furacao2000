@@ -71,15 +71,20 @@
     }
 
     function iniciar() {
-         for (var in_sorteio = 0; in_sorteio < vt_nomescavalos.length; in_sorteio++) {
-        for (var in_volta = 0; in_volta < qtd_voltas.length; in_volta++) {
-                var sorteio = (Math.random()*2+7).toFixed(1)
-             vt_voltas.push(sorteio)
+        for (let i = 0; i < qtd_cavalos; i ++) {
+            var soma = 0
+            for (let x = 0; x < qtd_voltas; x++) {
+                var aleatorio = ((Math.random() * 3) + 7).toFixed(1);
+                soma += Number(aleatorio);
+                vt_voltas.push(
+                    {
+                    "cavalo": `${i}`,
+                    "tempo": `${aleatorio}`,
+                    "tempoacumulado": `${(soma).toFixed(1)}`
+                    }
+                )
             }
-        console.log(sorteio) 
         }
-        
-
-        
+        console.log(vt_voltas)
     }
 </script>
