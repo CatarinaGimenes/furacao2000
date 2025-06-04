@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HorseCraft</title>
+</head>
+
+<body>
+    <h2>HorseCraft</h2>
+    Informe a quantidade de cavalos: <input type="number" id="qtdcavalos"> <br> <br>
+    Informe a quantidade de voltas: <input type="number" id="qtdvoltas"> <br> <br>
+    <button onclick="comecar()">Começar</button> <br> <br>
+    Informe o nome do seu cavalo: <input type="text" id="nominho"> <br>
+    Selecione seu cavalo: <br>
+    <button onclick="selecionarcor(1)">Cor 1</button>
+    <button onclick="selecionarcor(2)">Cor 2</button> <br>
+    <button onclick="selecionarcor(3)">Cor 3</button>
+    <button onclick="selecionarcor(4)">Cor 4</button> <br>
+    <button onclick="selecionarcor(5)">Cor 5</button>
+    <button onclick="selecionarcor(6)">Cor 6</button> <br>
+    <button onclick="selecionarcor(7)">Cor 7</button>
+    <button onclick="selecionarcor(8)">Cor 8</button><br><br>
+    <button onclick="cadastrar()">Cadastrar</button>
+    <button onclick="iniciar()">Iniciar Jogo</button>
+</body>
+
+</html>
+
+<script>
+    var qtd_cavalos = 0
+    var qtd_voltas = 0
+    var qtd_cadastros = 0
+    var cor_selecionada = 1
+
+    function comecar() {
+        if (qtdcavalos.value == "" || qtdvoltas.value == "" || qtdcavalos.value <= 0 || qtdvoltas.value <= 0) {
+            alert("Não deixe campos em branco e nem insira valores menores que 0")
+        } else {
+            qtd_cavalos = qtdcavalos.value
+            qtd_cadastros = qtdcavalos.value
+            qtd_voltas = qtdvoltas.value
+        }
+    }
+
+    var vt_nomescavalos = [];
+    var vt_voltas = [];
+
+    function selecionarcor(color) {
+        cor_selecionada = color
+    }
+
+    function cadastrar() {
+        if (nominho.value == "") {
+            alert("Você deve inserir um nome primeiro")
+        } else {
+            if (qtd_cadastros != 0) {
+                qtd_cadastros--
+                vt_nomescavalos.push(
+                    {
+                    "nome": `${nominho.value}`,
+                    "cor": `${cor_selecionada}`
+                    }
+                )
+            } else {
+
+            }
+        }
+        console.log(vt_nomescavalos)
+    }
+
+    function iniciar() {
+         for (var in_sorteio = 0; in_sorteio < vt_nomescavalos.length; in_sorteio++) {
+        for (var in_volta = 0; in_volta < qtd_voltas.length; in_volta++) {
+                var sorteio = (Math.random()*2+7).toFixed(1)
+             vt_voltas.push(sorteio)
+            }
+        console.log(sorteio) 
+        }
+        
+
+        
+    }
+</script>
