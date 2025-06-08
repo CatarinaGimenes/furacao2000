@@ -4,31 +4,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css.css">
+    <link rel="stylesheet" href="horse.css">
     <title>HorseCraft</title>
 </head>
 
-<body>
-    <h2>HorseCraft</h2>
-    Informe a quantidade de cavalos: <input type="number" id="qtdcavalos"> <br> <br>
-    Informe a quantidade de voltas: <input type="number" id="qtdvoltas"> <br> <br>
-    <button onclick="comecar()">Começar</button> <br> <br>
-    Informe o nome do seu cavalo: <input type="text" id="nominho"> <br>
-    Selecione seu cavalo: <br>
-    <button onclick="selecionarcor(1)">Cor 1</button>
-    <button onclick="selecionarcor(2)">Cor 2</button> <br>
-    <button onclick="selecionarcor(3)">Cor 3</button>
-    <button onclick="selecionarcor(4)">Cor 4</button> <br>
-    <button onclick="selecionarcor(5)">Cor 5</button>
-    <button onclick="selecionarcor(6)">Cor 6</button> <br>
-    <button onclick="selecionarcor(7)">Cor 7</button>
-    <button onclick="selecionarcor(8)">Cor 8</button><br><br>
-    <button onclick="cadastrar()">Cadastrar</button>
-    <button onclick="iniciar()">Iniciar Jogo</button>
+<body onload="esconder()">
+    <div id="tela_inicial">
+        <video autoplay muted loop playsinline>
+            <source src="assets/fundo_inicial.mp4" type="video/mp4">
+        </video>
+        <h1>HORSECRAFT</h1>
+        <button
+            class="minecraft-btn mx-auto w-64 text-center text-white truncate p-1 border-2 border-b-4 hover:text-yellow-200"
+            onclick="iniciarJogo()" id="botao_inicial">Iniciar Partida</button>
+    </div>
+    <div id="tela_jogo" class="container_jogo">
+        <h2>HorseCraft</h2>
+        <div class="secoes" id="tela_qtd">
+            <label>Informe a quantidade de cavalos:</label><br>
+            <input type="number" id="qtdcavalos"><br><br>
+
+            <label>Informe a quantidade de voltas:</label><br>
+            <input type="number" id="qtdvoltas"><br><br>
+
+            <button onclick="comecar()">Começar</button><br><br>
+        </div>
+        <div class="secoes" id="tela_cavalo">
+            Informe o nome do seu cavalo: <input type="text" id="nominho">
+            Selecione seu cavalo: <br>
+            <div class="galeria_cavalos">
+                <button class="btn_cav" onclick="selecionarcor(1)">
+                    <img class="img_cavalo" src="assets/burro.png" alt="">
+                </button>
+                <button class="btn_cav" onclick="selecionarcor(2)">
+                    <img class="img_cavalo" src="assets/cavalobranco.png" alt="">
+                </button>
+                <button class="btn_cav" onclick="selecionarcor(3)">
+                    <img class="img_cavalo" src="assets/cavalocaramelo.png" alt="">
+                </button>
+                <button class="btn_cav" onclick="selecionarcor(4)">
+                    <img class="img_cavalo" src="assets/cavaloesqueleto.png" alt="">
+                </button>
+                <button class="btn_cav" onclick="selecionarcor(5)">
+                    <img class="img_cavalo" src="assets/cavalopreto.png" alt="">
+                </button>
+                <button class="btn_cav" onclick="selecionarcor(6)">
+                    <img class="img_cavalo" src="assets/cavalozumbi.png" alt="">
+                </button>
+            </div>
+            <button class="botaojogo" onclick="cadastrar()" id="botao_cadastrar">Cadastrar</button><br>
+        </div>
+    <div class="secoes" id="tela_voltas">
+        <div id="div_voltas"></div>
+        <button onclick="finalizar()">Finalizar</button><br>
+        <button onclick="ver()">Ver</button>
+        <div id="div_resultados"></div>
+    </div>
+        </div>
 </body>
 
 </html>
 
 <script>
+    function esconder() {
+        document.getElementById('tela_jogo').style.display = "none";
+        document.getElementById('tela_voltas').style.display = "none";
+    }
+
+    function iniciarJogo() {
+        document.getElementById('tela_jogo').style.display = "flex";
+        document.getElementById('tela_inicial').style.display = "none";
+        document.getElementById('tela_cavalo').style.display = "none";
+    }
+
     var qtd_cavalos = 0
     var qtd_voltas = 0
     var qtd_cadastros = 0
@@ -37,10 +86,19 @@
     function comecar() {
         if (qtdcavalos.value == "" || qtdvoltas.value == "" || qtdcavalos.value <= 0 || qtdvoltas.value <= 0) {
             alert("Não deixe campos em branco e nem insira valores menores que 0")
+        } else if (qtdcavalos.value < 3 || qtdcavalos.value > 6) {
+            alert("Você deve inserir no mínimo 3 cavalos e no máximo 6")
+        } else if (qtdvoltas.value < 5 || qtdvoltas.value > 10) {
+            alert("Você deve inserir no mínimo 5 voltas e no máximo 10")
         } else {
             qtd_cavalos = qtdcavalos.value
             qtd_cadastros = qtdcavalos.value
             qtd_voltas = qtdvoltas.value
+
+            document.getElementById('tela_qtd').style.display = "none";
+            document.getElementById('tela_cavalo').style.display = "flex";
+            document.getElementById('tela_voltas').style.display = "none";
+
         }
     }
 
@@ -59,32 +117,107 @@
                 qtd_cadastros--
                 vt_nomescavalos.push(
                     {
-                    "nome": `${nominho.value}`,
-                    "cor": `${cor_selecionada}`
+                        "nome": `${nominho.value}`,
+                        "cor": `${cor_selecionada}`
                     }
                 )
             } else {
-
+                alert(`você já inseriu ${qtd_cavalos} cavalos`)
             }
         }
+        if (qtd_cadastros == 0) {
+            document.getElementById("botao_cadastrar").outerHTML = `<button class="botaojogo" onclick="iniciar()">Iniciar Jogo</button>`
+        }
+        document.getElementById('tela_jogo').style.display = "flex";
+        document.getElementById('tela_inicial').style.display = "none";
         console.log(vt_nomescavalos)
+        nominho.value = ""
     }
 
     function iniciar() {
-        for (let i = 0; i < qtd_cavalos; i ++) {
+        document.getElementById('tela_cavalo').style.display = "none";
+        document.getElementById('tela_voltas').style.display = "flex";
+        for (let i = 0; i < qtd_cavalos; i++) {
             var soma = 0
             for (let x = 0; x < qtd_voltas; x++) {
                 var aleatorio = ((Math.random() * 3) + 7).toFixed(1);
                 soma += Number(aleatorio);
                 vt_voltas.push(
                     {
-                    "cavalo": `${i}`,
-                    "tempo": `${aleatorio}`,
-                    "tempoacumulado": `${(soma).toFixed(1)}`
+                        "cavalo": `${i}`,
+                        "nomeCavalo": `${vt_nomescavalos[i].nome}`,
+                        "corCavalo": `${vt_nomescavalos[i].cor}`,
+                        "tempo": `${aleatorio}`,
+                        "volta": `${x + 1}`,
+                        "tempoacumulado": `${(soma).toFixed(1)}`
                     }
                 )
             }
         }
         console.log(vt_voltas)
+    }
+
+    var volta_atual = 0
+    function ver() {
+        var tempo_cavalo = 999
+        var melhor_cavalo
+        div_voltas.innerHTML = ""
+        volta_atual++
+        if (volta_atual <= qtd_voltas) {
+            div_voltas.innerHTML += `Volta ${volta_atual} - <br>`
+            for (let x = 0; x < vt_voltas.length; x++) {
+                if (vt_voltas[x].volta == volta_atual) {
+                    console.log(vt_voltas[x])
+                    var final = "--"
+                    if (vt_voltas[x].cavalo == qtd_cavalos - 1) {
+                        final = "<br>"
+                    }
+                    div_voltas.innerHTML += `
+                    Cavalo ${vt_voltas[x].nomeCavalo} - ${vt_voltas[x].tempo} - ${vt_voltas[x].tempoacumulado} ${final}
+                    `
+                    if (vt_voltas[x].tempo < Number(tempo_cavalo)) {
+                        tempo_cavalo = Number(vt_voltas[x].tempo)
+                        melhor_cavalo = vt_voltas[x].nomeCavalo
+                    }
+                }
+            }
+            div_voltas.innerHTML += `<br> ${melhor_cavalo}`
+        }
+    }
+
+    function finalizar() {
+        var lugar1 = 999
+        var nome1 = ""
+        var lugar2 = 999
+        var nome2 = ""
+        var lugar3 = 999
+        var nome3 = ""
+
+        for (let i = 0; i < vt_voltas.length; i++) {
+            if (vt_voltas[i].volta == qtd_voltas) {
+                if (Number(vt_voltas[i].tempoacumulado) < lugar1) {
+                    lugar3 = lugar2
+                    nome3 = nome2
+                    lugar2 = lugar1
+                    nome2 = nome1
+                    lugar1 = Number(vt_voltas[i].tempoacumulado)
+                    nome1 = vt_voltas[i].nomeCavalo
+                } else if (Number(vt_voltas[i].tempoacumulado) < lugar2) {
+                    lugar3 = lugar2
+                    nome3 = nome2
+                    lugar2 = Number(vt_voltas[i].tempoacumulado)
+                    nome2 = vt_voltas[i].nomeCavalo
+                } else if (Number(vt_voltas[i].tempoacumulado) < lugar3) {
+                    lugar3 = Number(vt_voltas[i].tempoacumulado)
+                    nome3 = vt_voltas[i].nomeCavalo
+                }
+            }
+        }
+
+        div_resultados.innerHTML = `
+        Primeiro lugar: ${nome1} <br>
+        Segundo lugar: ${nome2} <br>
+        Terceiro lugar: ${nome3}
+        `
     }
 </script>
