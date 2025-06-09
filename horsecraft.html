@@ -30,10 +30,15 @@
 
             <button onclick="comecar()">Começar</button><br><br>
         </div>
+        <div class="container" id="container">
         <div class="secoes" id="tela_cavalo">
             Informe o nome do seu cavalo: <input type="text" id="nominho">
             Selecione seu cavalo: <br>
-            <div class="galeria_cavalos">
+           
+            <button class="botaojogo" onclick="cadastrar()" id="botao_cadastrar">Cadastrar</button><br>
+        </div>
+
+         <div class="galeria_cavalos" >
                 <button class="btn_cav" onclick="selecionarcor(1)">
                     <img class="img_cavalo" src="assets/burro.png" alt="">
                 </button>
@@ -53,14 +58,13 @@
                     <img class="img_cavalo" src="assets/cavalozumbi.png" alt="">
                 </button>
             </div>
-            <button class="botaojogo" onclick="cadastrar()" id="botao_cadastrar">Cadastrar</button><br>
-        </div>
     <div class="secoes" id="tela_voltas">
-        <div id="div_voltas"></div>
+        <div id="div_voltas" style="overflow: scroll;"></div>
         <button onclick="finalizar()">Finalizar</button><br>
         <button onclick="ver()">Ver</button>
-        <div id="div_resultados"></div>
+        <div id="div_resultados" style="overflow: scroll;"></div>
     </div>
+        </div>
         </div>
 </body>
 
@@ -70,12 +74,16 @@
     function esconder() {
         document.getElementById('tela_jogo').style.display = "none";
         document.getElementById('tela_voltas').style.display = "none";
+                                
+
+        
     }
 
     function iniciarJogo() {
         document.getElementById('tela_jogo').style.display = "flex";
         document.getElementById('tela_inicial').style.display = "none";
         document.getElementById('tela_cavalo').style.display = "none";
+
     }
 
     var qtd_cavalos = 0
