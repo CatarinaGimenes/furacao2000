@@ -61,8 +61,8 @@
         <div class="secoes" id="tela_voltas">
             <div id="div_voltas"></div>
             <button id="botaover" onclick="ver()">Ver</button> <br>
-                    </div>
-            <div class="secoes"id=tela_resultados>
+        </div>
+        <div class="secoes" id=tela_resultados>
             <div id="primeiro">
                 <img id="img1lugar" style="width: 100%;" src="assets/1.png" alt="">
                 <h4 id="p1lugar">cavalo 1</h4>
@@ -75,8 +75,8 @@
                 <img id="img3lugar" style="width: 100%;" src="assets/1.png" alt="">
                 <h4 id="p3lugar">cavalo 3</h4>
             </div>
-                <img style="margin-top: 60px;" id="img_podio" src="assets/podio.png" alt="">
-            </div>
+            <img style="margin-top: 60px;" id="img_podio" src="assets/podio.png" alt="">
+        </div>
     </div>
 </body>
 
@@ -107,8 +107,8 @@
     function comecar() {
         if (qtdcavalos.value == "" || qtdvoltas.value == "" || qtdcavalos.value <= 0 || qtdvoltas.value <= 0) {
             alert("Não deixe campos em branco e nem insira valores menores que 0")
-        } else if (qtdcavalos.value < 3 || qtdcavalos.value > 6) {
-            alert("Você deve inserir no mínimo 3 cavalos e no máximo 6")
+        } else if (qtdcavalos.value < 2 || qtdcavalos.value > 6) {
+            alert("Você deve inserir no mínimo 2 cavalos e no máximo 6")
         } else if (qtdvoltas.value < 5 || qtdvoltas.value > 10) {
             alert("Você deve inserir no mínimo 5 voltas e no máximo 10")
         } else {
@@ -134,7 +134,7 @@
         if (nominho.value == "") {
             alert("Você deve inserir um nome primeiro")
         }
-         else {
+        else {
             if (qtd_cadastros != 0) {
                 qtd_cadastros--
                 vt_nomescavalos.push(
@@ -180,54 +180,54 @@
     }
 
     var volta_atual = 0
-   function ver() {
-    var tempo = 999;
-    var melhor = "";
-    var html = "";
-    var corpo;
-    var linha;
-    
-    volta_atual++;
+    function ver() {
+        var tempo = 999;
+        var melhor = "";
+        var html = "";
+        var corpo;
+        var linha;
 
-    if (volta_atual == 1) {
-        html = '<table class="voltas-tabela"><thead><tr><th>Volta</th>';
-        for (var i = 0; i < vt_nomescavalos.length; i++) {
-            html += '<th>' + vt_nomescavalos[i].nome + '</th>';
-        }
-        html += '</tr></thead><tbody id="corpo-tabela-voltas"></tbody></table>';
-        document.getElementById('div_voltas').innerHTML = html;
-    }
+        volta_atual++;
 
-    corpo = document.getElementById('corpo-tabela-voltas');
-    linha = '<tr><td>' + volta_atual + '</td>';
-    for (var j = 0; j < vt_voltas.length; j++) {
-        var v = vt_voltas[j];
-        if (v.volta == volta_atual) {
-            linha += '<td>' + v.tempo + '</td>';
-            if (Number(v.tempo) < tempo) {
-                tempo = Number(v.tempo);
-                melhor = v.nomeCavalo;
+        if (volta_atual == 1) {
+            html = '<table class="voltas-tabela"><thead><tr><th>Volta</th>';
+            for (var i = 0; i < vt_nomescavalos.length; i++) {
+                html += '<th>' + vt_nomescavalos[i].nome + '</th>';
             }
+            html += '</tr></thead><tbody id="corpo-tabela-voltas"></tbody></table>';
+            document.getElementById('div_voltas').innerHTML = html;
         }
-    }
-    linha += '</tr>';
-    corpo.innerHTML = linha + corpo.innerHTML;
 
-    if (volta_atual == qtd_voltas) {
-        var linhaFinal = '<tr><td><strong>Tempo</strong></td>';
-        for (var k = 0; k < qtd_cavalos; k++) {
-            for (var m = 0; m < vt_voltas.length; m++) {
-                var v2 = vt_voltas[m];
-                if (v2.cavalo == k && v2.volta == qtd_voltas) {
-                    linhaFinal += '<td><strong>' + v2.tempoacumulado + '</strong></td>';
+        corpo = document.getElementById('corpo-tabela-voltas');
+        linha = '<tr><td>' + volta_atual + '</td>';
+        for (var j = 0; j < vt_voltas.length; j++) {
+            var v = vt_voltas[j];
+            if (v.volta == volta_atual) {
+                linha += '<td>' + v.tempo + '</td>';
+                if (Number(v.tempo) < tempo) {
+                    tempo = Number(v.tempo);
+                    melhor = v.nomeCavalo;
                 }
             }
         }
-        linhaFinal += '</tr>';
-        corpo.innerHTML += linhaFinal;
-        document.getElementById("botaover").outerHTML = '<button onclick="finalizar()">Finalizar</button>';
+        linha += '</tr>';
+        corpo.innerHTML = linha + corpo.innerHTML;
+
+        if (volta_atual == qtd_voltas) {
+            var linhaFinal = '<tr><td><strong>Tempo</strong></td>';
+            for (var k = 0; k < qtd_cavalos; k++) {
+                for (var m = 0; m < vt_voltas.length; m++) {
+                    var v2 = vt_voltas[m];
+                    if (v2.cavalo == k && v2.volta == qtd_voltas) {
+                        linhaFinal += '<td><strong>' + v2.tempoacumulado + '</strong></td>';
+                    }
+                }
+            }
+            linhaFinal += '</tr>';
+            corpo.innerHTML += linhaFinal;
+            document.getElementById("botaover").outerHTML = '<button onclick="finalizar()">Finalizar</button>';
+        }
     }
-}
 
 
     function finalizar() {
@@ -277,5 +277,10 @@
         p1lugar.innerHTML = nome1
         p2lugar.innerHTML = nome2
         p3lugar.innerHTML = nome3
+
+        if (qtd_cavalos == 2) {
+            p3lugar.innerHTML = ""
+            document.getElementById("img3lugar").src = ""
+        }
     }
 </script>
