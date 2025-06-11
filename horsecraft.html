@@ -32,41 +32,52 @@
         </div>
         <div class="secoes" id="tela_cavalo">
             <div class="div_input">
-            Informe o nome do seu cavalo: <input type="text" id="nominho">
-           
-            <button class="botaojogo" onclick="cadastrar()" id="botao_cadastrar">Cadastrar</button><br>
-        </div>
+                Informe o nome do seu cavalo: <input type="text" id="nominho">
 
-         <div class="galeria_cavalos" >
+                <button class="botaojogo" onclick="cadastrar()" id="botao_cadastrar">Cadastrar</button><br>
+            </div>
+
+            <div class="galeria_cavalos">
                 <button class="btn_cav" onclick="selecionarcor(1)">
-                    <img class="img_cavalo" src="assets/burro.png" alt="">
+                    <img class="img_cavalo" src="assets/1.png" alt="">
                 </button>
                 <button class="btn_cav" onclick="selecionarcor(2)">
-                    <img class="img_cavalo" src="assets/cavalobranco.png" alt="">
+                    <img class="img_cavalo" src="assets/2.png" alt="">
                 </button>
                 <button class="btn_cav" onclick="selecionarcor(3)">
-                    <img class="img_cavalo" src="assets/cavalocaramelo.png" alt="">
+                    <img class="img_cavalo" src="assets/3.png" alt="">
                 </button>
                 <button class="btn_cav" onclick="selecionarcor(4)">
-                    <img class="img_cavalo" src="assets/cavaloesqueleto.png" alt="">
+                    <img class="img_cavalo" src="assets/4.png" alt="">
                 </button>
                 <button class="btn_cav" onclick="selecionarcor(5)">
-                    <img class="img_cavalo" src="assets/cavalopreto.png" alt="">
+                    <img class="img_cavalo" src="assets/5.png" alt="">
                 </button>
                 <button class="btn_cav" onclick="selecionarcor(6)">
-                    <img class="img_cavalo" src="assets/cavalozumbi.png" alt="">
+                    <img class="img_cavalo" src="assets/6.png" alt="">
                 </button>
-                </div>
             </div>
-    <div class="secoes" id="tela_voltas">
-        <div id="div_voltas"></div>
-                <button onclick="ver()">Ver</button> <br>
-        <button onclick="finalizar()">Finalizar</button>
-        <div id="div_resultados">
-            <img src="assets/podio.html" alt="">
         </div>
+        <div class="secoes" id="tela_voltas">
+            <div id="div_voltas"></div>
+            <button id="botaover" onclick="ver()">Ver</button> <br>
+                    </div>
+            <div class="secoes"id=tela_resultados>
+            <div id="primeiro">
+                <img id="img1lugar" style="width: 100%;" src="assets/1.png" alt="">
+                <h4 id="p1lugar">cavalo 1</h4>
+            </div>
+            <div id="segundo">
+                <img id="img2lugar" style="width: 100%;" src="assets/1.png" alt="">
+                <h4 id="p2lugar">cavalo 2</h4>
+            </div>
+            <div id="terceiro">
+                <img id="img3lugar" style="width: 100%;" src="assets/1.png" alt="">
+                <h4 id="p3lugar">cavalo 3</h4>
+            </div>
+                <img style="margin-top: 60px;" id="img_podio" src="assets/podio.png" alt="">
+            </div>
     </div>
-        </div>
 </body>
 
 </html>
@@ -75,15 +86,16 @@
     function esconder() {
         document.getElementById('tela_jogo').style.display = "none";
         document.getElementById('tela_voltas').style.display = "none";
-                                
 
-        
+
+
     }
 
     function iniciarJogo() {
         document.getElementById('tela_jogo').style.display = "flex";
         document.getElementById('tela_inicial').style.display = "none";
         document.getElementById('tela_cavalo').style.display = "none";
+        document.getElementById('tela_resultados').style.display = "none";
 
     }
 
@@ -189,43 +201,61 @@
                     }
                 }
             }
-            div_voltas.innerHTML += `<br> ${melhor_cavalo}`
+            div_voltas.innerHTML += `<br> ${melhor_cavalo} <br> <br>`
+        }
+        if (volta_atual == qtd_voltas) {
+            document.getElementById("botaover").outerHTML = `
+            <button onclick="finalizar()">Finalizar</button>
+            `
         }
     }
 
     function finalizar() {
+        document.getElementById('tela_voltas').style.display = "none";
+        document.getElementById('tela_resultados').style.display = "flex";
         var lugar1 = 999
         var nome1 = ""
+        var cor1 = ""
         var lugar2 = 999
         var nome2 = ""
+        var cor2 = ""
         var lugar3 = 999
         var nome3 = ""
+        var cor3 = ""
 
         for (let i = 0; i < vt_voltas.length; i++) {
             if (vt_voltas[i].volta == qtd_voltas) {
                 if (Number(vt_voltas[i].tempoacumulado) < lugar1) {
                     lugar3 = lugar2
                     nome3 = nome2
+                    cor3 = cor2
                     lugar2 = lugar1
                     nome2 = nome1
+                    cor2 = cor1
                     lugar1 = Number(vt_voltas[i].tempoacumulado)
                     nome1 = vt_voltas[i].nomeCavalo
+                    cor1 = vt_voltas[i].corCavalo
                 } else if (Number(vt_voltas[i].tempoacumulado) < lugar2) {
                     lugar3 = lugar2
                     nome3 = nome2
+                    cor3 = cor2
                     lugar2 = Number(vt_voltas[i].tempoacumulado)
                     nome2 = vt_voltas[i].nomeCavalo
+                    cor2 = vt_voltas[i].corCavalo
                 } else if (Number(vt_voltas[i].tempoacumulado) < lugar3) {
                     lugar3 = Number(vt_voltas[i].tempoacumulado)
                     nome3 = vt_voltas[i].nomeCavalo
+                    cor3 = vt_voltas[i].corCavalo
                 }
             }
         }
 
-        div_resultados.innerHTML = `
-        Primeiro lugar: ${nome1} <br>
-        Segundo lugar: ${nome2} <br>
-        Terceiro lugar: ${nome3}
-        `
+        document.getElementById("img1lugar").src = `assets/${cor1}.png`
+        document.getElementById("img2lugar").src = `assets/${cor2}.png`
+        document.getElementById("img3lugar").src = `assets/${cor3}.png`
+
+        p1lugar.innerHTML = nome1
+        p2lugar.innerHTML = nome2
+        p3lugar.innerHTML = nome3
     }
 </script>
