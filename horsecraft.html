@@ -133,7 +133,8 @@
     function cadastrar() {
         if (nominho.value == "") {
             alert("Você deve inserir um nome primeiro")
-        } else {
+        }
+         else {
             if (qtd_cadastros != 0) {
                 qtd_cadastros--
                 vt_nomescavalos.push(
@@ -179,36 +180,51 @@
     }
 
     var volta_atual = 0
-    function ver() {
-        var tempo_cavalo = 999
-        var melhor_cavalo
-        volta_atual++
-        if (volta_atual <= qtd_voltas) {
-            div_voltas.innerHTML += ``
-            for (let x = 0; x < vt_voltas.length; x++) {
-                if (vt_voltas[x].volta == volta_atual) {
-                    console.log(vt_voltas[x])
-                    var final = "--"
-                    if (vt_voltas[x].cavalo == qtd_cavalos - 1) {
-                        final = "<br>"
-                    }
-                    div_voltas.innerHTML += `
-                    Cavalo ${vt_voltas[x].nomeCavalo} - ${vt_voltas[x].tempo} - ${vt_voltas[x].tempoacumulado} ${final}
-                    `
-                    if (vt_voltas[x].tempo < Number(tempo_cavalo)) {
-                        tempo_cavalo = Number(vt_voltas[x].tempo)
-                        melhor_cavalo = vt_voltas[x].nomeCavalo
-                    }
-                }
+   function ver() {
+    var tempo_cavalo = 999
+    var melhor_cavalo
+    volta_atual++
+    if (volta_atual === 1) {
+        div_voltas.innerHTML = `
+            <table class="voltas-tabela">
+                <thead>
+                    <tr>
+                        <th>Volta</th>
+                        ${vt_nomescavalos.map(c => `<th>${c.nome}</th>`).join('')}
+                    </tr>
+                </thead>
+                <tbody id="corpo-tabela-voltas">
+                </tbody>
+            </table>
+        `;
+    }
+
+    const corpo = document.getElementById('corpo-tabela-voltas');
+    let linha = `<tr><td>${volta_atual}</td>`;
+    for (let x = 0; x < vt_voltas.length; x++) {
+        if (vt_voltas[x].volta == volta_atual) {
+            linha += `<td>${vt_voltas[x].tempo}</td>`;
+            if (vt_voltas[x].tempo < Number(tempo_cavalo)) {
+                tempo_cavalo = Number(vt_voltas[x].tempo)
+                melhor_cavalo = vt_voltas[x].nomeCavalo
             }
-            div_voltas.innerHTML += `<br> ${melhor_cavalo} <br> <br>`
-        }
-        if (volta_atual == qtd_voltas) {
-            document.getElementById("botaover").outerHTML = `
-            <button onclick="finalizar()">Finalizar</button>
-            `
         }
     }
+    linha += `</tr>`;
+    corpo.innerHTML = linha + corpo.innerHTML
+
+    if (volta_atual == qtd_voltas) {
+        let linhaFinal = `<tr><td><strong>Tempo</strong></td>`;
+        for (let i = 0; i < qtd_cavalos; i++) {
+            const tempoFinal = vt_voltas.filter(v => v.cavalo == i && v.volta == qtd_voltas)[0].tempoacumulado;
+            linhaFinal += `<td><strong>${tempoFinal}</strong></td>`;
+        }
+        linhaFinal += `</tr>`;
+        corpo.innerHTML += linhaFinal;
+
+        document.getElementById("botaover").outerHTML = `<button onclick="finalizar()">Finalizar</button>`;
+    }
+}
 
     function finalizar() {
         document.getElementById('tela_voltas').style.display = "none";
